@@ -37,45 +37,6 @@ n8n then orchestrates the investigation by:
 The goal is to reduce repetitive SOC analyst work while preserving
 the investigation context inside the incident ticket.
 
----
-### Detailed Workflow
-
-Security Logs
-      │
-      ▼
-   Splunk SIEM
-      │
-      ▼
-SPL Detection Query
-      │
-      ▼
-Scheduled Alert
-      │
-      ▼
- n8n Webhook
-      │
-      ▼
-Normalise Alert
-      │
-      ├───────────────┐
-      ▼               ▼
- AbuseIPDB        VirusTotal
-      │               │
-      └───────┬───────┘
-              ▼
-       Threat Intelligence
-              │
-              ▼
-        Risk Scoring
-              │
-              ▼
-       Duplicate Check
-          │         │
-       Found       Not Found
-          │         │
-          ▼         ▼
-        Stop      Jira
-                  Incident
 
 ## Technologies
 
@@ -105,6 +66,7 @@ username=admin
 src_ip=203.0.113.51
 hostname=SOC-TEST
 file_hash=44d88612fea8a8f36de82e1278abb02f
+```
 
 ## 1. Splunk Detection
 
@@ -116,6 +78,8 @@ The project detects repeated failed login attempts using SPL:
 index=soc_security event_type=failed_login
 | stats count by src_ip, username, file_hash
 | where count >= 5
+```
+
 
 ## 2. n8n Automation
 
@@ -136,6 +100,7 @@ Username
 Failed Attempts
 Alert Name
 File Hash
+```
 
 ## 4. AbuseIPDB Enrichment
 
@@ -186,6 +151,7 @@ Example:
 ```text
 Risk Score: 70 / 100
 Severity: High
+```
 
 ## 7. Duplicate Alert Suppression
 
@@ -195,6 +161,7 @@ incident associated with the source IP.
 ```text
 Recent duplicate found → Stop
 No duplicate found     → Create Jira incident
+```
 
 This prevents repeated alerts from creating duplicate tickets.
 
@@ -208,6 +175,7 @@ Example:
 
 ```text
 SOC Alert - High - 203.0.113.54
+```
 
 ## Key Learning Outcomes
 
