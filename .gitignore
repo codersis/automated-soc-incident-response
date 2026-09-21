@@ -1,0 +1,23 @@
+# Environment files
+.env
+.env.*
+!.env.example
+
+# n8n local data
+n8n-data/
+
+# Credentials and secrets
+credentials/
+secrets/
+*.key
+*.pem
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# VS Code local settings
+.vscode/
+
+# Logs
+*.log

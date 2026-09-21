@@ -1,0 +1,3 @@
+index=soc_security event_type=failed_login
+| stats count by src_ip, username, file_hash
+| where count >= 5
